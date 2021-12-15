@@ -4,6 +4,7 @@ const PORT = 5000
 
 const customMiddleware = ()=>{
     console.log("middleware executed")
+    next()
 }
 
 app.use(customMiddleware)
