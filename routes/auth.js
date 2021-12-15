@@ -8,8 +8,9 @@ router.get('/', (req, res)=>{
 router.post('/signup', (req,res)=>{
     const {name,email,password} = req.body
     if(!email || !password || !name){
-        res.json({error:"please add all the fields"})
+        return res.status(420).json({error:"please add all the fields"})
     }
+    res.json(({message:"successfully sent"}))
 })
 
 
