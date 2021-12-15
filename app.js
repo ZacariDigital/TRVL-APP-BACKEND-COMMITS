@@ -4,6 +4,10 @@ const mongoose = require('mongoose')
 const PORT = 5000
 const {MONGURI} = require('./keys')
 
+require('./models/user')
+
+app.use(require('./routes/auth'))
+
 mongoose.connect(MONGURI)
 mongoose.connection.on('connected', ()=>{
     console.log("connected to mongo")
