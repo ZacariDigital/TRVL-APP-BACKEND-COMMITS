@@ -3,10 +3,20 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const User = mongoose.model("User")
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const {JWT_SECRET} = require('../keys')
+const requireLogin = require ('../middleware/requireLogin')
+
+
+
+router.get('/protected',requireLogin,(req, res)=>{
+    res.send("protected")
+})
 
 router.get('/', (req, res)=>{
     res.send("hello")
 })
+
 
 router.post('/signup', (req,res)=>{
     const {name,email,password} = req.body
@@ -55,7 +65,9 @@ router.post('/signin',(req,res)=>{
         bcrypt.compare(password,savedUser.password)
         .then(doMatch=>{
             if(doMatch){
-                res.json({message:"Successful Sign In"})
+                //res.json({message:"Successful Sign In"})
+                const token = jwt.sign({_id:savedUser._id},JWT_SECRET)
+                res.json({token})
             }
             else{
                 return res.status(420).json({error:"Invalid Fields"})
